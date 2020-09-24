@@ -1,0 +1,5 @@
+{
+    "sketch": "ssd1306AsciiSupport.ino",
+    "board": "arduino:avr:uno",
+    "port": "COM13"
+}
