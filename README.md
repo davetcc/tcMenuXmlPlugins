@@ -4,6 +4,8 @@ These are the core plugins available in the free version of tcMenu Designer. Eac
 
 Full guide: https://www.thecoderscorner.com/products/arduino-libraries/tc-menu/tcmenu-plugins/building-plugins-for-use-in-menu-designer/
 
+See also: [https://github.com/davetcc/tcMenu]
+
 ## The plugin library definition - tcmenu-plugin.xml
 
 For an example of this see [examples/example-plugin.xml], the schema is available in this folder called [tcmenu-plugin.xsd]
