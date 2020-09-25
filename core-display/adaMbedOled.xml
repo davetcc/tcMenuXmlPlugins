@@ -1,5 +1,7 @@
-<TcMenuPlugin name="Adafruit OLED for mbed" id="8a15d500-410f-489d-b3dc-540b05e630ed" subsystem="DISPLAY"
-              xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<TcMenuPlugin name="Adafruit OLED for mbed"
+              id="8a15d500-410f-489d-b3dc-540b05e630ed" subsystem="DISPLAY"
+              xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
     <SupportedPlatforms>
         <Platform>MBED_RTOS</Platform>

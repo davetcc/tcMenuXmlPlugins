@@ -1,6 +1,7 @@
 <TcMenuPlugin name="AdafruitGFX quick start for 5110, ST77xx and ILI9341"
               id="4dcb12ec-13d8-4466-b8b6-bd575eae4612"
               subsystem="DISPLAY"
+              requiresDesigner="1.6"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
