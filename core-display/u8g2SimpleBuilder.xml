@@ -130,8 +130,8 @@
             </Choices>
         </Property>
 
-        <Property id="DISPLAY_CLOCK_PIN" name="Serial Data Pin - SW only" initial="U8X8_PIN_NONE" desc="The pin on which data is sent" type="pin" />
-        <Property id="DISPLAY_DATA_PIN" name="Serial Clock Pin - SW only" initial="U8X8_PIN_NONE" desc="The serial clock pin for the bus" type="pin" />
+        <Property id="DISPLAY_CLOCK_PIN" name="Serial Clock Pin - SW only" initial="U8X8_PIN_NONE" desc="Serial bus clock pin for software mode" type="pin" />
+        <Property id="DISPLAY_DATA_PIN" name="Serial Data Pin - SW only" initial="U8X8_PIN_NONE" desc="Serial bus data pin for software mode" type="pin" />
         <Property id="DISPLAY_RESET_PIN" name="Optional Reset Pin" initial="U8X8_PIN_NONE" desc="Option the pin on which Reset is connected" type="pin" />
         <Property id="DISPLAY_CS_PIN" name="CS Pin (SPI only)" initial="U8X8_PIN_NONE" desc="Option the pin on which CS is connected" type="pin" />
         <Property id="DISPLAY_RS_PIN" name="RS Pin (SPI only)" initial="U8X8_PIN_NONE" desc="Option the pin on which RS is connected" type="pin" />
