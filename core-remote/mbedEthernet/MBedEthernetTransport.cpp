@@ -132,9 +132,7 @@ void EthernetTagValServer::exec() {
             return;
         }
 
-        SocketAddress localAddr;
-        defNetwork->get_ip_address(&localAddr);
-        serdebugF2("Connected to network on IP ", localAddr.get_ip_address());
+        serdebugF("Connected to network");
         if(server.open(defNetwork) != 0) {
             serdebugF("Could not open socket");
             taskManager.scheduleOnce(1,this, TIME_SECONDS);
