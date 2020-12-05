@@ -91,8 +91,8 @@ bool MBedEthernetTransport::available() {
 
 void MBedEthernetTransport::close() {
     if(socket == nullptr) return;
+    serdebugF("closing socket");
 
-    flush();
     isOpen = false;
     socket->close();
     // socket is now a dangling pointer and must be cleared
