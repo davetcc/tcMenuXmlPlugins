@@ -38,8 +38,8 @@ void U8g2MenuRenderer::setGraphicsDevice(U8G2* u8g2, U8g2GfxMenuConfig *gfxConfi
     u8g2->setFont(gfxConfig->itemFont);
     int rowY = u8g2->getMaxCharHeight() + gfxConfig->itemPadding.top + gfxConfig->itemPadding.bottom;
 
-    color_t itemPalette[] = {gfxConfig->fgItemColor, gfxConfig->bgItemColor, 2, 0};
-    color_t titlePalette[] = {gfxConfig->fgTitleColor, gfxConfig->bgTitleColor, 2, 0};
+    color_t itemPalette[] = {gfxConfig->fgItemColor, gfxConfig->bgItemColor, gfxConfig->fgItemColor, 2};
+    color_t titlePalette[] = {gfxConfig->fgTitleColor, gfxConfig->bgTitleColor, gfxConfig->fgTitleColor, 2};
     propertiesFactory.setDrawingPropertiesDefault(ItemDisplayProperties::COMPTYPE_TITLE, titlePalette, gfxConfig->titlePadding, gfxConfig->titleFont, gfxConfig->titleFontMagnification, gfxConfig->titleBottomMargin, titleY, GridPosition::JUSTIFY_CENTER_NO_VALUE);
     propertiesFactory.setDrawingPropertiesDefault(ItemDisplayProperties::COMPTYPE_ITEM, itemPalette, gfxConfig->itemPadding, gfxConfig->itemFont, gfxConfig->itemFontMagnification, 0, rowY, GridPosition::JUSTIFY_TITLE_LEFT_VALUE_RIGHT);
     propertiesFactory.setDrawingPropertiesDefault(ItemDisplayProperties::COMPTYPE_ACTION, itemPalette, gfxConfig->itemPadding, gfxConfig->itemFont, gfxConfig->itemFontMagnification, 0, rowY, GridPosition::JUSTIFY_TITLE_LEFT_WITH_VALUE);
@@ -57,8 +57,8 @@ void U8g2MenuRenderer::setGraphicsDevice(U8G2* u8g2) {
     int titleY = u8g2->getMaxCharHeight() + 8;
     int rowY = u8g2->getMaxCharHeight() + 2;
 
-    color_t itemPalette[] = {1, 0, 2, 0};
-    color_t titlePalette[] = {0, 1, 2, 0};
+    color_t itemPalette[] = {1, 0, 1, 2};
+    color_t titlePalette[] = {0, 1, 0, 2};
     propertiesFactory.setDrawingPropertiesDefault(ItemDisplayProperties::COMPTYPE_TITLE, titlePalette, MenuPadding(4), u8g2_font_6x10_tf, 1, 2, titleY, GridPosition::JUSTIFY_CENTER_NO_VALUE);
     propertiesFactory.setDrawingPropertiesDefault(ItemDisplayProperties::COMPTYPE_ITEM, itemPalette, MenuPadding(2), u8g2_font_6x10_tf, 1, 0, rowY, GridPosition::JUSTIFY_TITLE_LEFT_VALUE_RIGHT);
     propertiesFactory.setDrawingPropertiesDefault(ItemDisplayProperties::COMPTYPE_ACTION, itemPalette, MenuPadding(2), u8g2_font_6x10_tf, 1, 0, rowY, GridPosition::JUSTIFY_TITLE_LEFT_WITH_VALUE);
@@ -69,8 +69,10 @@ void U8g2MenuRenderer::setGraphicsDevice(U8G2* u8g2) {
 }
 
 void U8g2MenuRenderer::drawWidget(Coord where, TitleWidget *widget, color_t fg, color_t bg) {
-    serdebugF("widget redraw");
-    u8g2->setColorIndex(fg);
+    serdebugF3("widget redraw fg, bg ", fg, bg);
+    u8g2->setDrawColor(bg);
+    u8g2->drawBox(where.x, where.y, widget->getWidth(), widget->getHeight());
+    u8g2->setDrawColor(fg);
     drawBitmap(where.x, where.y, widget->getWidth(), widget->getHeight(), widget->getCurrentIcon());
     redrawNeeded = true;
 }
@@ -160,29 +162,22 @@ void U8g2MenuRenderer::drawSlider(GridPositionRowCacheEntry* pEntry, Coord where
     auto* editIcon = propertiesFactory.iconForMenuItem(SPECIAL_ID_ACTIVE_ICON);
     int iconOffset = (editIcon) ? editIcon->getDimensions().x + padding.left : 0;
 
-    int sliderStartX = where.x + padding.left + iconOffset;
+    int sliderStartX = where.x + iconOffset;
     int maximumSliderArea = size.x - (sliderStartX + padding.right);
     auto* analogItem = reinterpret_cast<AnalogMenuItem*>(pEntry->getMenuItem());
     int filledAreaX = analogRangeToScreen(analogItem, maximumSliderArea);
-    int filledHeight = size.y - (padding.bottom + padding.top);
-    u8g2->drawBox(sliderStartX, where.y + padding.top, filledAreaX, filledHeight);
+    u8g2->drawBox(sliderStartX, where.y, filledAreaX, size.y);
 
     internalDrawText(pEntry, where, size, iconOffset, true);
 }
 
 void U8g2MenuRenderer::drawTextualItem(GridPositionRowCacheEntry* pEntry, Coord where, Coord size) {
     u8g2->setFont(static_cast<const uint8_t *>(pEntry->getDisplayProperties()->getFont()));
-    int imgMiddleY = drawCoreLineItem(pEntry, where, size);
+    drawCoreLineItem(pEntry, where, size);
     auto padding = pEntry->getDisplayProperties()->getPadding();
 
     auto* editIcon = propertiesFactory.iconForMenuItem(SPECIAL_ID_ACTIVE_ICON);
     int iconOffset = (editIcon) ? editIcon->getDimensions().x + padding.left : 0;
-
-    if(isItemActionable(pEntry->getMenuItem()) && editIcon) {
-        int rightOffset = size.x - (padding.right + iconOffset);
-        drawBitmap(rightOffset, imgMiddleY, editIcon->getDimensions().x, editIcon->getDimensions().y, editIcon->getIcon(false));
-        buffer[0] = 0;
-    }
 
     internalDrawText(pEntry, where, size, iconOffset, false);
 }
@@ -199,10 +194,9 @@ void U8g2MenuRenderer::internalDrawText(GridPositionRowCacheEntry* pEntry, Coord
 
     int prevCol = u8g2->getDrawColor();
     u8g2->setFont(safeGetFont(pEntry->getDisplayProperties()->getFont()));
-
+    u8g2->setFontMode(modeXor);
     if(modeXor) {
         u8g2->setDrawColor(2);
-        u8g2->setFontMode(true);
     }
     else if(pEntry->getMenuItem()->isActive() || pEntry->getMenuItem()->isEditing()) {
         u8g2->setDrawColor(propertiesFactory.getSelectedColor(ItemDisplayProperties::TEXT));
@@ -229,7 +223,7 @@ void U8g2MenuRenderer::internalDrawText(GridPositionRowCacheEntry* pEntry, Coord
         if(itemNeedsValue(just))
             copyMenuItemNameAndValue(pEntry->getMenuItem(), sz, sizeof sz, ':');
         else
-            copyMenuItemValue(pEntry->getMenuItem(), sz, sizeof sz);
+            pEntry->getMenuItem()->copyNameToBuffer(sz, sizeof sz);
 
         int startPosition = 0;
         if(just == GridPosition::JUSTIFY_RIGHT_WITH_VALUE || just == GridPosition::JUSTIFY_RIGHT_NO_VALUE) {
@@ -238,7 +232,9 @@ void U8g2MenuRenderer::internalDrawText(GridPositionRowCacheEntry* pEntry, Coord
         else if(just == GridPosition::JUSTIFY_CENTER_WITH_VALUE || just == GridPosition::JUSTIFY_CENTER_NO_VALUE) {
             startPosition = ((size.x - u8g2->getStrWidth(sz)) / 2) + padding.right;
         }
-        u8g2->setCursor(startPosition + where.x, (where.y + size.y) - padding.bottom);
+        u8g2->setCursor(startPosition + where.x + leftOffset, (where.y + size.y) - padding.bottom);
+        u8g2->print(sz);
+        serdebugF4("intTx ", sz, startPosition + where.x, (where.y + size.y) - padding.bottom);
     }
 
     if(modeXor) {
@@ -253,12 +249,14 @@ int U8g2MenuRenderer::drawCoreLineItem(GridPositionRowCacheEntry* pEntry, const 
     auto* editIcon = propertiesFactory.iconForMenuItem(pItem->isEditing() ? SPECIAL_ID_EDIT_ICON : SPECIAL_ID_ACTIVE_ICON);
 
     int imgMiddleY = 0;
-    if(editIcon && (pItem->isEditing() || pItem->isActive())) {
-        imgMiddleY = where.y + ((size.y - editIcon->getDimensions().y) / 2);
+    if(pItem->isEditing() || pItem->isActive()) {
         u8g2->setColorIndex(propertiesFactory.getSelectedColor(ItemDisplayProperties::BACKGROUND));
         u8g2->drawBox(where.x, where.y, size.x, size.y);
         u8g2->setColorIndex(propertiesFactory.getSelectedColor(ItemDisplayProperties::TEXT));
-        drawBitmap(where.x + padding.left, imgMiddleY, editIcon->getDimensions().x, editIcon->getDimensions().y, editIcon->getIcon(false));
+        if(editIcon) {
+            imgMiddleY = where.y + ((size.y - editIcon->getDimensions().y) / 2);
+            drawBitmap(where.x + padding.left, imgMiddleY, editIcon->getDimensions().x, editIcon->getDimensions().y, editIcon->getIcon(false));
+        }
     }
     else {
         u8g2->setColorIndex(pEntry->getDisplayProperties()->getColor(ItemDisplayProperties::BACKGROUND));

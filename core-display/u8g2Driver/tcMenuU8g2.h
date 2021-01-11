@@ -60,7 +60,7 @@ private:
     bool redrawNeeded;
 public:
 	U8g2MenuRenderer(uint8_t bufferSize = 20) : BaseGraphicalRenderer(bufferSize, 1, 1, false, applicationInfo.name) {
-		this->u8g2 = NULL;
+		this->u8g2 = nullptr;
 	}
     ~U8g2MenuRenderer() override = default;
 
