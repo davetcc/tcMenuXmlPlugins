@@ -26,6 +26,7 @@
 #include <gfxfont.h>
 #include <GfxMenuConfig.h>
 #include <BaseDialog.h>
+#include <BaseGraphicalRenderer.h>
 
 #define DISPLAY_HAS_MEMBUFFER false
 
@@ -47,7 +48,7 @@ extern const ConnectorLocalInfo applicationInfo;
 /**
  * A standard menu render configuration that describes how to renderer each item and the title.
  * Specialised for Adafruit_GFX fonts.
- */ 
+ */
 typedef struct ColorGfxMenuConfig<const GFXfont*> AdaColorGfxMenuConfig;
 
 void drawCookieCutBitmap(Adafruit_GFX* gfx, int16_t x, int16_t y, const uint8_t *bitmap, int16_t w,
@@ -60,47 +61,38 @@ void drawCookieCutBitmap(Adafruit_GFX* gfx, int16_t x, int16_t y, const uint8_t 
  * it to this renderer. The usual procedure is to create a display variable globally in your
  * sketch and then provide that as the parameter to setGraphicsDevice. If you are using the
  * designer you provide the display variable name in the code generation parameters.
- * 
+ *
  * You can also override many elements of the display using AdaColorGfxMenuConfig, to use the defaults
  * just call prepareAdaColorDefaultGfxConfig(..) passing it a pointer to your config object. Again the
  * designer UI takes care of this.
  */
-class AdaFruitGfxMenuRenderer : public BaseMenuRenderer {
+class AdaFruitGfxMenuRenderer : public BaseGraphicalRenderer {
 private:
+    ConfigurableItemDisplayPropertiesFactory propertiesFactory;
 	Adafruit_GFX* graphics;
-	AdaColorGfxMenuConfig *gfxConfig;
-	int16_t titleHeight;
-    int16_t itemHeight;
+    bool redrawNeeded = true;
+    uint8_t marginBetweenAreas = 5; // between the title and items, items and button bars etc. default 5
 public:
-	AdaFruitGfxMenuRenderer(uint8_t bufferSize = 20) : BaseMenuRenderer(bufferSize) {
-		this->graphics = NULL;
-		this->gfxConfig = NULL;
+	AdaFruitGfxMenuRenderer(uint8_t bufferSize = 20) : BaseGraphicalRenderer(bufferSize, 1, 1, false, applicationInfo.name) {
+		this->graphics = nullptr;
 	}
-
+    ~AdaFruitGfxMenuRenderer() override = default;
 	void setGraphicsDevice(Adafruit_GFX* graphics, AdaColorGfxMenuConfig *gfxConfig);
 
-	virtual ~AdaFruitGfxMenuRenderer();
-	virtual void render();
+    void drawWidget(Coord where, TitleWidget *widget, color_t colorFg, color_t colorBg) override;
+    void drawMenuItem(GridPositionRowCacheEntry *entry, Coord where, Coord areaSize) override;
+    void drawingCommand(RenderDrawingCommand command) override;
+    ItemDisplayPropertiesFactory &getDisplayPropertiesFactory() override { return propertiesFactory; }
+
     Adafruit_GFX* getGraphics() { return graphics; }
-    AdaColorGfxMenuConfig* getGfxConfig() { return gfxConfig; }
-    BaseDialog* getDialog() override;
 
+    int heightForFontPadding(const GFXfont *font, int mag, const MenuPadding &padding);
 private:
-	void renderMenuItem(int yPos, int menuHeight, MenuItem* item);
-	void renderTitleArea();
-	bool renderWidgets(bool forceDraw);
-    void renderListMenu(int titleHeight);
-};
-
-class AdaGfxDialog : public BaseDialog {
-public:
-    AdaGfxDialog() {
-        AdaFruitGfxMenuRenderer* r = reinterpret_cast<AdaFruitGfxMenuRenderer*>(MenuRenderer::getInstance());
-        bitWrite(flags, DLG_FLAG_SMALLDISPLAY, (r->getGraphics()->width() < 100));
-    }
-protected:
-    void internalRender(int currentValue) override;
-    void drawButton(Adafruit_GFX* gfx, AdaColorGfxMenuConfig* config, const char* title, uint8_t num, bool active);
+    int drawCoreLineItem(GridPositionRowCacheEntry* entry, DrawableIcon* icon, const Coord &where, const Coord &size);
+    void drawTextualItem(GridPositionRowCacheEntry* entry, Coord where, Coord size);
+    void drawSlider(GridPositionRowCacheEntry* entry, AnalogMenuItem* pItem, Coord where, Coord size);
+    void internalDrawText(GridPositionRowCacheEntry *entry, Coord where, Coord size);
+    void drawIconItem(GridPositionRowCacheEntry *pEntry, Coord where, Coord size);
 };
 
 /**
