@@ -10,9 +10,6 @@
     <SupportedPlatforms>
         <Platform>ARDUINO_UNO</Platform>
         <Platform>ARDUINO_AVR</Platform>
-        <Platform>ARDUINO_32</Platform>
-        <Platform>ARDUINO_ESP8266</Platform>
-        <Platform>ARDUINO_ESP32</Platform>
     </SupportedPlatforms>
     <Description>SSD1306ASCII uses the greiman SSD1306Ascii from github to generate a low memory display renderer for OLED devices using a fixed width font. Commercial use caution: underlying SSD1306Ascii library is GPL</Description>
     <Documentation link="https://www.thecoderscorner.com/products/arduino-libraries/tc-menu/tcmenu-plugins/ssd1306ascii-display-plugin"/>

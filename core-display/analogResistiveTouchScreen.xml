@@ -1,0 +1,55 @@
+<TcMenuPlugin name="Resistive touch screen on analog inputs" id="183448ac-a717-4b2b-823d-ffc7c8140ab9" subsystem="INPUT"
+              xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
+    <SupportedPlatforms>
+       <Platform>ARDUINO_UNO</Platform>
+       <Platform>ARDUINO_AVR</Platform>
+       <Platform>ARDUINO_32</Platform>
+       <Platform>ARDUINO_ESP8266</Platform>
+       <Platform>ARDUINO_ESP32</Platform>
+       <Platform>MBED_RTOS</Platform>
+    </SupportedPlatforms>
+    <Description>Resistive touch screen panel that is attached to the display, this driver handles direct connection to analog pins on the device, must be used with a graphical renderer.</Description>
+    <Documentation link=""/>
+    <RequiredLibraries/>
+    <ImageFile>touch-screen.jpg</ImageFile>
+
+    <Properties>
+        <Property id="XPLUS_PIN" name="X+ pin" initial="21" desc="Set to X+ pin" type="pin"/>
+        <Property id="XMINUS_PIN" name="X- pin" initial="A0" desc="Set to X- pin, must be an ADC pin" type="pin"/>
+        <Property id="YPLUS_PIN" name="Y+ pin" initial="22" desc="Set to Y+ pin" type="pin"/>
+        <Property id="YMINUS_PIN" name="Y- pin" initial="A1" desc="Set to Y- pin, must be an ADC pin" type="pin"/>
+        <Property id="TOUCH_ROTATION" name="Rotation" initial="PORTRAIT" desc="Sets the orientation of the touch screen" type="choice">
+            <Choices>
+                <Choice>PORTRAIT</Choice>
+                <Choice>PORTRAIT_INVERTED</Choice>
+                <Choice>LANDSCAPE</Choice>
+                <Choice>LANDSCAPE_INVERTED</Choice>
+            </Choices>
+        </Property>
+    </Properties>
+
+    <ApplicabilityDefs/>
+    <SourceFiles/>
+    <IncludeFiles/>
+
+    <GlobalVariables>
+        <Variable name="touchScreen" type="MenuResistiveTouchScreen" export="true">
+            <Param value="${XPLUS_PIN}"/>
+            <Param value="${XMINUS_PIN}"/>
+            <Param value="${YPLUS_PIN}"/>
+            <Param value="${YMINUS_PIN}"/>
+            <Param ref="renderer"/>
+            <Param value="MenuResistiveTouchScreen::${TOUCH_ROTATION}"/>
+        </Variable>
+    </GlobalVariables>
+
+    <SetupFunctions>
+        <Function name="start" object="touchScreen"/>
+
+        <Function name="initWithoutInput" object="menuMgr">
+            <Param ref="renderer"/>
+            <Param ref="${ROOT}"/>
+        </Function>
+    </SetupFunctions>
+</TcMenuPlugin>
