@@ -10,7 +10,9 @@
     <RequiredLibraries/>
     <ImageFile>DfRobotShield.jpg</ImageFile>
 
-    <Properties/>
+    <Properties>
+        <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="2" desc="Number of screen updates per second, ensure it divides by 1000" type="int" min="1" max="10"/>
+    </Properties>
 
     <ApplicabilityDefs/>
 
@@ -45,6 +47,10 @@
         <Function name="begin" object="lcd">
             <Param value="16"/>
             <Param value="2"/>
+        </Function>
+
+        <Function object="renderer" name="setUpdatesPerSecond">
+            <Param value="${UPDATES_PER_SEC}"/>
         </Function>
 
         <Function name="configureBacklightPin" object="lcd">

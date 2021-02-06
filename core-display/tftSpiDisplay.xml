@@ -13,22 +13,22 @@
     <Properties>
         <Property id="DISPLAY_VARIABLE" name="Display variable name" initial="gfx" desc="Name of the variable we should create" type="variable" />
         <Property id="DISPLAY_ROTATION" name="Rotation number" initial="2" desc="Rotation value between 0 and 3" type="int" min="0" max="3" />
-        <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="5" desc="How many times per second to check for screen updates (1..10)" type="int" min="1" max="10" />
         <Property id="DOUBLE_BUFFER_ROWS" name="Maximum rows to double buffer" initial="0" desc="Menus are rendered one item at a time, the largest buffer height - 0=off" type="int" min="0" max="250" />
         <Property id="TITLE_FONT_NUM" name="Title font number" initial="2" desc="The font number to use for the title" type="int" min="0" max="250" />
         <Property id="ITEM_FONT_NUM" name="Item font number" initial="2" desc="The font number to use for the item" type="int" min="0" max="250" />
+        <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="10" desc="How many times per second to check for screen updates" type="int" min="1" max="30" />
     </Properties>
 
     <ApplicabilityDefs/>
 
     <SourceFiles>
-        <Replacement find="TC_DISPLAY_UPDATES_PER_SECOND %d*" replace="TC_DISPLAY_UPDATES_PER_SECOND {UPDATES_PER_SEC}"/>
         <SourceFile name="tfteSpi/tcMenuTfteSpi.cpp"/>
         <SourceFile name="tfteSpi/tcMenuTfteSpi.h"/>
     </SourceFiles>
 
     <IncludeFiles>
         <Header name="tcMenuTfteSpi.h" inSource="true"/>
+        <Header name="graphics/MenuTouchScreenEncoder.h" inSource="false"/>
     </IncludeFiles>
 
     <GlobalVariables>
@@ -53,13 +53,18 @@
             <Param value="${DISPLAY_ROTATION}"/>
         </Function>
 
-        <Function object="renderer" name="prepareDisplay">
+        <Function object="renderer" name="setUpdatesPerSecond">
+            <Param value="${UPDATES_PER_SEC}"/>
+        </Function>
+
+        <Function object="renderer" name="prepareDisplay" whenProperty="DISPLAY_CONFIG" isValue="">
             <Param value="false"/>
-            <Param value="nullptr"/>
-            <Param value="${TITLE_FONT_NUM}"/>
-            <Param value="nullptr"/>
-            <Param value="${ITEM_FONT_NUM}"/>
+            <Param ref="${DISPLAY_ITEM_FONT}"/>
+            <Param value="1"/>
+            <Param ref="${DISPLAY_TITLE_FONT}"/>
+            <Param value="1"/>
             <Param value="true"/>
         </Function>
+
     </SetupFunctions>
 </TcMenuPlugin>

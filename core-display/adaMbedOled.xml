@@ -42,6 +42,9 @@
         <Property id="DISPLAY_CS_PIN" name="CS Pin (SPI only)" initial="NC" desc="Option the pin on which CS is connected" type="pin" />
         <Property id="DISPLAY_RS_PIN" name="RS Pin (SPI only)" initial="NC" desc="Option the pin on which RS is connected" type="pin" />
         <Property id="DISPLAY_ROTATION" name="Display Rotation (0..3)" initial="0" desc="See AdafruitGFX guide for more on rotation" type="int" min="0" max="3"/>
+        <Property id="DISPLAY_TITLE_FONT" name="Title font from Fonts folder" initial="NULL" desc="The name of a font from fonts folder for the title (NULL for default)" type="variable"/>
+        <Property id="DISPLAY_ITEM_FONT" name="Item font from Fonts folder" initial="NULL" desc="The name of a font from fonts folder for items (NULL for default)" type="variable"/>
+        <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="5" desc="Number of screen updates per second, ensure it divides by 1000" type="int" min="1" max="30"/>
     </Properties>
 
     <ApplicabilityDefs>
@@ -59,6 +62,8 @@
     <IncludeFiles>
         <Header name="Adafruit_SSD1306.h" inSource="true"/>
         <Header name="tcMenuAdaFruitGfx.h" inSource="true"/>
+        <Header name="Fonts/${DISPLAY_TITLE_FONT}.h" inSource="false" whenProperty="DISPLAY_TITLE_FONT" isNotValue="NULL"/>
+        <Header name="Fonts/${DISPLAY_ITEM_FONT}.h" inSource="false" whenProperty="DISPLAY_ITEM_FONT" isNotValue="NULL"/>
     </IncludeFiles>
 
     <GlobalVariables>
@@ -80,9 +85,18 @@
             <Param value="${DISPLAY_WIDTH}"/>
             <Param value="${DISPLAY_TYPE}"/>
         </Variable>
-        <Variable name="gfxConfig" type="AdaColorGfxMenuConfig" export="true" whenProperty="DISPLAY_CONFIG" isValue=""/>
+
         <Variable name="${DISPLAY_CONFIG}" type="AdaColorGfxMenuConfig" export="only" whenProperty="DISPLAY_CONFIG" isNotValue=""/>
-        <Variable name="renderer" type="AdaFruitGfxMenuRenderer" export="true" />
+
+        <Variable name="${DISPLAY_VARIABLE}Drawable" type="AdafruitDrawable" export="true">
+            <Param ref="${DISPLAY_VARIABLE}"/>
+        </Variable>
+
+        <Variable name="renderer" type="GraphicsDeviceRenderer" export="true">
+            <Param value="30"/>
+            <Param value="applicationInfo.name"/>
+            <Param ref="${DISPLAY_VARIABLE}Drawable"/>
+        </Variable>
     </GlobalVariables>
 
     <SetupFunctions>
@@ -95,14 +109,26 @@
         </Function>
         <Function name="begin" object="${DISPLAY_VARIABLE}"/>
 
-        <Function name="setGraphicsDevice" object="renderer" whenProperty="DISPLAY_CONFIG" isNotValue="">
+        <Function object="renderer" name="setUpdatesPerSecond">
+            <Param value="${UPDATES_PER_SEC}"/>
+        </Function>
+
+        <Function name="setGraphicsConfiguration" object="renderer" whenProperty="DISPLAY_CONFIG" isNotValue="">
             <Param ref="${DISPLAY_VARIABLE}"/>
             <Param ref="${DISPLAY_CONFIG}"/>
         </Function>
 
-        <Function name="setGraphicsDevice" object="renderer" whenProperty="DISPLAY_CONFIG" isValue="">
-            <Param ref="${DISPLAY_VARIABLE}"/>
-            <Param ref="gfxConfig"/>
+        <Function object="renderer" name="prepareDisplay" whenProperty="DISPLAY_CONFIG" isValue="">
+            <Param value="true"/>
+            <Param ref="${DISPLAY_ITEM_FONT}"/>
+            <Param value="1"/>
+            <Param ref="${DISPLAY_TITLE_FONT}"/>
+            <Param value="1"/>
+            <Param value="true"/>
+        </Function>
+
+        <Function object="renderer" name="setUseSliderForAnalog" >
+            <Param value="false"/>
         </Function>
     </SetupFunctions>
 </TcMenuPlugin>

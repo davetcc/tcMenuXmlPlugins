@@ -12,7 +12,7 @@
     <Description>Resistive touch screen panel that is attached to the display, this driver handles direct connection to analog pins on the device, must be used with a graphical renderer.</Description>
     <Documentation link=""/>
     <RequiredLibraries/>
-    <ImageFile>touch-screen.jpg</ImageFile>
+    <ImageFile>resistive-touch.jpg</ImageFile>
 
     <Properties>
         <Property id="XPLUS_PIN" name="X+ pin" initial="21" desc="Set to X+ pin" type="pin"/>

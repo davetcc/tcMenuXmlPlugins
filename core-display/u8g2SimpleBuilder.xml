@@ -135,9 +135,23 @@
         <Property id="DISPLAY_RESET_PIN" name="Optional Reset Pin" initial="U8X8_PIN_NONE" desc="Option the pin on which Reset is connected" type="pin" />
         <Property id="DISPLAY_CS_PIN" name="CS Pin (SPI only)" initial="U8X8_PIN_NONE" desc="Option the pin on which CS is connected" type="pin" />
         <Property id="DISPLAY_RS_PIN" name="RS Pin (SPI only)" initial="U8X8_PIN_NONE" desc="Option the pin on which RS is connected" type="pin" />
+        <Property id="DISPLAY_TITLE_FONT" name="Title font from Fonts folder" initial="NULL" desc="The name of a U8G2 provided font for the title (NULL for default)" type="variable"/>
+        <Property id="DISPLAY_ITEM_FONT" name="Item font from Fonts folder" initial="NULL" desc="The name of a U8G2 provided font for items (NULL for default)" type="variable"/>
+        <Property id="YIELDING_WIRE_CB" name="Improve latency using yield (I2C)" initial="10" desc="Call yield during redrawing of buffer to improve latency" type="boolean" />
+        <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="10" desc="How many times per second to check for screen updates" type="int" min="1" max="30" />
     </Properties>
 
-    <ApplicabilityDefs/>
+    <ApplicabilityDefs>
+        <ApplicabilityDef key="yieldingDriver" mode="and">
+            <Applicability whenProperty="YIELDING_WIRE_CB" isValue="true"/>
+            <Applicability whenProperty="DISPLAY_TYPE" matches=".*W_I2C"/>
+        </ApplicabilityDef>
+
+        <ApplicabilityDef key="notYieldingDriver" mode="or">
+            <Applicability whenProperty="YIELDING_WIRE_CB" isValue="false"/>
+            <Applicability whenProperty="DISPLAY_TYPE" matches="^((?!W_I2C).)*$"/>
+        </ApplicabilityDef>
+    </ApplicabilityDefs>
 
     <SourceFiles>
         <SourceFile name="u8g2Driver/tcMenuU8g2.cpp" />
@@ -177,21 +191,43 @@
             <Param value="${DISPLAY_RESET_PIN}"/>
         </Variable>
 
-        <Variable name="gfxConfig" type="U8g2GfxMenuConfig" export="true" whenProperty="DISPLAY_CONFIG" isValue=""/>
         <Variable name="${DISPLAY_CONFIG}" type="U8g2GfxMenuConfig" export="only" whenProperty="DISPLAY_CONFIG" isNotValue=""/>
-        <Variable name="renderer" type="U8g2MenuRenderer" export="true" />
+
+        <Variable name="${DISPLAY_VARIABLE}Drawable" type="U8g2Drawable" applicabilityRef="yieldingDriver">
+            <Param ref="${DISPLAY_VARIABLE}"/>
+            <Param ref="Wire"/>
+        </Variable>
+
+        <Variable name="${DISPLAY_VARIABLE}Drawable" type="U8g2Drawable" applicabilityRef="notYieldingDriver">
+            <Param ref="${DISPLAY_VARIABLE}"/>
+        </Variable>
+
+        <Variable name="renderer" type="GraphicsDeviceRenderer" export="true">
+            <Param value="30"/>
+            <Param value="applicationInfo.name"/>
+            <Param ref="${DISPLAY_VARIABLE}Drawable"/>
+        </Variable>
     </GlobalVariables>
 
     <SetupFunctions>
-        <Function name="prepareBasicU8x8Config"  whenProperty="DISPLAY_CONFIG" isValue="">
-            <Param value="gfxConfig"/>
-        </Function>
-
         <Function object="${DISPLAY_VARIABLE}" name="begin"/>
 
-        <Function name="setGraphicsDevice" object="renderer">
+        <Function name="setGraphicsConfiguration" object="renderer" whenProperty="DISPLAY_CONFIG" isNotValue="">
             <Param ref="${DISPLAY_VARIABLE}"/>
-            <Param ref="${DISPLAY_CONFIG}" default="gfxConfig"/>
+            <Param ref="${DISPLAY_CONFIG}" />
+        </Function>
+
+        <Function object="renderer" name="setUpdatesPerSecond">
+            <Param value="${UPDATES_PER_SEC}"/>
+        </Function>
+
+        <Function object="renderer" name="prepareDisplay" whenProperty="DISPLAY_CONFIG" isValue="">
+            <Param value="true"/>
+            <Param ref="${DISPLAY_ITEM_FONT}"/>
+            <Param value="1"/>
+            <Param ref="${DISPLAY_TITLE_FONT}"/>
+            <Param value="1"/>
+            <Param value="true"/>
         </Function>
     </SetupFunctions>
 </TcMenuPlugin>
