@@ -20,7 +20,9 @@
 #include "tcMenu.h"
 #include <LiquidCrystalIO.h>
 #include <BaseDialog.h>
-#include <BaseGraphicalRenderer.h>
+#include <graphics/BaseGraphicalRenderer.h>
+
+using namespace tcgfx;
 
 /**
  * A renderer that can renderer onto a LiquidCrystal display and supports the concept of single level
@@ -47,16 +49,10 @@ public:
     void drawingCommand(RenderDrawingCommand command) override;
     void drawWidget(Coord where, TitleWidget* widget, color_t colorFg, color_t colorBg) override;
     void drawMenuItem(GridPositionRowCacheEntry* entry, Coord where, Coord areaSize) override;
-    ItemDisplayPropertiesFactory &getDisplayPropertiesFactory() override { return propertiesFactory; }
-};
+    void fillWithBackgroundTo(int endPoint) override;
 
-class LiquidCrystalDialog : public BaseDialog {
-public:
-    LiquidCrystalDialog(LiquidCrystalRenderer* renderer) {
-        bitWrite(flags, DLG_FLAG_SMALLDISPLAY, (renderer->getRows() <= 2));
-    }
-protected:
-    void internalRender(int currentValue) override;
+    ItemDisplayPropertiesFactory &getDisplayPropertiesFactory() override { return propertiesFactory; }
+    NullItemDisplayPropertiesFactory &getLcdDisplayPropertiesFactory() { return propertiesFactory; }
 };
 
 #endif // _TCMENU_LIQUID_CRYSTAL_H
