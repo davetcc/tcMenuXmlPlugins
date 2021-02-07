@@ -26,7 +26,6 @@
                 <Choice>Adafruit_PCD8544</Choice>
             </Choices>
         </Property>
-        <Property id="DISPLAY_CONFIG" name="DEPRECATED - Display config (new designs leave blank)" initial="" desc="Deprecated, do not use in new designs. Override graphics configuration" type="variable" />
         <Property id="DISPLAY_WIDTH" name="Display width" initial="320" desc="Pixel width in hardware" type="int" min="16" max="5000"/>
         <Property id="DISPLAY_HEIGHT" name="Display width" initial="240" desc="Pixel width in hardware" type="int" min="16" max="5000"/>
         <Property id="DISPLAY_RESET_PIN" name="Optional Reset Pin" initial="-1" desc="Option the pin on which Reset is connected" type="pin" />
@@ -41,20 +40,14 @@
     </Properties>
 
     <ApplicabilityDefs>
-        <ApplicabilityDef key="whenBlankMono" mode="and">
-            <Applicability whenProperty="DISPLAY_CONFIG" isValue=""/>
-            <ApplicabilityDef mode="or" key="internalMonoCombo">
-                <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_SSD1306"/>
-                <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_PCD8544"/>
-            </ApplicabilityDef>
+        <ApplicabilityDef key="whenBlankMono" mode="or">
+            <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_SSD1306"/>
+            <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_PCD8544"/>
         </ApplicabilityDef>
-        <ApplicabilityDef key="whenBlankTFT" mode="and">
-            <Applicability whenProperty="DISPLAY_CONFIG" isValue=""/>
-            <ApplicabilityDef mode="or" key="internalColorCombo">
-                <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_ILI9341"/>
-                <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_ST7789"/>
-                <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_ST7735"/>
-            </ApplicabilityDef>
+        <ApplicabilityDef key="whenBlankTFT" mode="or">
+            <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_ILI9341"/>
+            <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_ST7789"/>
+            <Applicability whenProperty="DISPLAY_TYPE" isValue="Adafruit_ST7735"/>
         </ApplicabilityDef>
 
         <ApplicabilityDef key="whenDisplayBuffered" mode="or">
@@ -157,8 +150,6 @@
 
         <!-- general variables applicable to all -->
 
-        <Variable name="${DISPLAY_CONFIG}" type="AdaColorGfxMenuConfig" export="only" whenProperty="DISPLAY_CONFIG" isNotValue=""/>
-
         <Variable name="${DISPLAY_VARIABLE}Drawable" type="AdafruitDrawable" export="true">
             <Param ref="${DISPLAY_VARIABLE}"/>
         </Variable>
@@ -187,11 +178,6 @@
 
         <Function object="renderer" name="setUpdatesPerSecond">
             <Param value="${UPDATES_PER_SEC}"/>
-        </Function>
-
-        <Function name="setGraphicsConfiguration" object="renderer" whenProperty="DISPLAY_CONFIG" isNotValue="">
-            <Param ref="${DISPLAY_VARIABLE}"/>
-            <Param ref="${DISPLAY_CONFIG}"/>
         </Function>
 
         <Function object="renderer" name="prepareDisplay" applicabilityRef="whenBlankTFT">

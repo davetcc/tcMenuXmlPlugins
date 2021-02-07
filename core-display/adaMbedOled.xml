@@ -19,7 +19,7 @@
                 <Choice>SSD_1306</Choice>
             </Choices>
         </Property>
-        <Property id="DISPLAY_CONFIG" name="Display config (blank default)" initial="" desc="Optional, use to override the default graphics configuration" type="variable" />
+        <Property id="DISPLAY_CONFIG" name="Deprecated: Display config (leave blank)" initial="" desc="Deprecated in new designs leave blank, for legacy use only" type="variable" />
         <Property id="DISPLAY_WIDTH" name="Display width" initial="128" desc="Pixel width in hardware" type="choice">
             <Choices>
                 <Choice>132</Choice>
