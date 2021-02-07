@@ -59,10 +59,10 @@
 
         <Function object="renderer" name="prepareDisplay" whenProperty="DISPLAY_CONFIG" isValue="">
             <Param value="false"/>
-            <Param ref="${DISPLAY_ITEM_FONT}"/>
-            <Param value="1"/>
-            <Param ref="${DISPLAY_TITLE_FONT}"/>
-            <Param value="1"/>
+            <Param ref="NULL"/>
+            <Param value="${ITEM_FONT_NUM}"/>
+            <Param ref="NULL"/>
+            <Param value="${TITLE_FONT_NUM}"/>
             <Param value="true"/>
         </Function>
 
