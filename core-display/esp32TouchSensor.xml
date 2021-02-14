@@ -11,6 +11,7 @@
 
     <Properties>
         <Property id="SWITCH_THRESHOLD" name="Switch activation threshold" initial="800" desc="Point below which the switch is considered pressed" type="int" min="0" max="32768"/>
+        <Property id="INTERRUPT_SWITCHES" name="Interrupt Switches" initial="false" desc="Enable this to use interrupts instead of polling for switches" type="boolean"/>
         <Property id="TP_HIGH_VOLTAGE" name="High voltage setting" initial="TOUCH_HVOLT_2V7" desc="The high voltage setting to use for the touch pad" type="choice">
             <Choices>
                 <Choice>TOUCH_HVOLT_KEEP</Choice>
@@ -72,6 +73,11 @@
             <Param value="false"/>
         </Function>
 
+        <Function name="initialiseInterrupt" object="switches" whenProperty="INTERRUPT_SWITCHES" isValue="true">
+            <Param ref="esp32Touch"/>
+            <Param value="false"/>
+        </Function>
+
         <Function name="initForUpDownOk" object="menuMgr">
             <Param ref="renderer"/>
             <Param ref="${ROOT}"/>
@@ -79,5 +85,7 @@
             <Param value="${UP_SENSOR}"/>
             <Param value="${SELECT_SENSOR}"/>
         </Function>
+
+        <Function name="ensureInterruptRegistered" object="esp32Touch"/>
     </SetupFunctions>
 </TcMenuPlugin>

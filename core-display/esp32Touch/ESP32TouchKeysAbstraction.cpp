@@ -1,8 +1,11 @@
 #include <PlatformDetermination.h>
 #include "ESP32TouchKeysAbstraction.h"
 
+volatile int intCount = 0;
+
 void esp32TouchKeyInterruptHandler(void* touchAbsAsVoid) {
     TaskManager::markInterrupted(0);
+    intCount++;
 }
 
 bool ESP32TouchKeysAbstraction::runLoop() {
@@ -10,19 +13,14 @@ bool ESP32TouchKeysAbstraction::runLoop() {
 }
 
 void ESP32TouchKeysAbstraction::attachInterrupt(pinid_t pin, RawIntHandler interruptHandler, uint8_t mode) {
-    if(interruptEnabled || !allOk) return; // on this abstraction interrupts are on or off
-    serdebugF2("Enabling interrupt for ", pin);
-    touch_pad_isr_register(esp32TouchKeyInterruptHandler, this);
-    touch_pad_intr_enable();
-    interruptEnabled = true;
+    interruptCodeNeeded = true;
 }
 
 uint8_t ESP32TouchKeysAbstraction::readValue(pinid_t pin) {
+    serdebugF2("Attempt read", pin);
     if(!allOk) return 0;
-    if(!startedUp) {
-        startedUp = true;
-        touch_pad_filter_start(DEFAULT_TOUCHKEY_FILTER_FREQ);
-    }
+
+    ensureInterruptRegistered();
 
     uint16_t val;
     touch_pad_read_filtered((touch_pad_t)pin, &val);
@@ -42,8 +40,23 @@ ESP32TouchKeysAbstraction::ESP32TouchKeysAbstraction(int defThreshold, touch_hig
     serdebugF2("touch_pad_init ", allOk);
     touch_pad_set_voltage(highVoltage, lowVoltage, attenuation);
     serdebugF2("touch_pad set voltage ", allOk);
-    interruptEnabled = false;
+    interruptCodeNeeded = false;
     startedUp = false;
     pinThreshold = defThreshold;
     enabledPinMask = 0;
+    taskManager.scheduleFixedRate(5, [] {serdebugF2("intCount=", intCount);}, TIME_SECONDS);
+}
+
+void ESP32TouchKeysAbstraction::ensureInterruptRegistered() {
+    if(!startedUp) {
+        startedUp = true;
+        touch_pad_filter_start(DEFAULT_TOUCHKEY_FILTER_FREQ);
+    }
+
+    if(interruptCodeNeeded) {
+        interruptCodeNeeded = false;
+        touch_pad_isr_register(esp32TouchKeyInterruptHandler, this);
+        allOk = touch_pad_intr_enable() == ESP_OK;
+        serdebugF2("Enabled interrupts for touch sensor ok=", allOk);
+    }
 }

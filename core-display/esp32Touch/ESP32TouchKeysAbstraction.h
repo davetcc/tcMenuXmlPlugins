@@ -26,12 +26,14 @@ private:
     uint16_t pinThreshold;
     uint16_t enabledPinMask;
     bool allOk;
-    bool interruptEnabled;
+    bool interruptCodeNeeded;
     bool startedUp;
 public:
     ESP32TouchKeysAbstraction(int defThreshold, touch_high_volt_t highVoltage = TOUCH_HVOLT_2V7, touch_low_volt_t lowVoltage = TOUCH_LVOLT_0V5,
                               touch_volt_atten_t attenuation = TOUCH_HVOLT_ATTEN_1V);
     ~ESP32TouchKeysAbstraction() override = default;
+
+    void ensureInterruptRegistered();
 
     /**
      * You can call this method to check if any errors occurred during initialisation
