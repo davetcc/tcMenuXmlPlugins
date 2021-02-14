@@ -1,0 +1,83 @@
+<TcMenuPlugin name="Use ESP32 touch pad sensors for input" id="cc0f9246-03be-4adf-b1f5-dd501085122a" subsystem="INPUT"
+              xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
+    <SupportedPlatforms>
+           <Platform>ARDUINO_ESP32</Platform>
+    </SupportedPlatforms>
+    <Description>Interfaces with the ESP32 touch pad sensors to use them as buttons with switches, either interrupt based or polled mode is supported.</Description>
+    <Documentation link=""/>
+    <RequiredLibraries/>
+    <ImageFile>touchpad.jpg</ImageFile>
+
+    <Properties>
+        <Property id="SWITCH_THRESHOLD" name="Switch activation threshold" initial="800" desc="Point below which the switch is considered pressed" type="int" min="0" max="32768"/>
+        <Property id="TP_HIGH_VOLTAGE" name="High voltage setting" initial="TOUCH_HVOLT_2V7" desc="The high voltage setting to use for the touch pad" type="choice">
+            <Choices>
+                <Choice>TOUCH_HVOLT_KEEP</Choice>
+                <Choice>TOUCH_HVOLT_2V4</Choice>
+                <Choice>TOUCH_HVOLT_2V5</Choice>
+                <Choice>TOUCH_HVOLT_2V6</Choice>
+                <Choice>TOUCH_HVOLT_2V7</Choice>
+                <Choice>TOUCH_HVOLT_MAX</Choice>
+            </Choices>
+        </Property>
+        <Property id="TP_LOW_VOLTAGE" name="Low voltage setting" initial="TOUCH_LVOLT_0V5" desc="The low voltage setting to use for the touch pad" type="choice">
+            <Choices>
+                <Choice>TOUCH_LVOLT_KEEP</Choice>
+                <Choice>TOUCH_LVOLT_0V5</Choice>
+                <Choice>TOUCH_LVOLT_0V6</Choice>
+                <Choice>TOUCH_LVOLT_0V7</Choice>
+                <Choice>TOUCH_LVOLT_0V8</Choice>
+                <Choice>TOUCH_LVOLT_MAX</Choice>
+            </Choices>
+        </Property>
+        <Property id="TP_ATTENUATION" name="Attenuation setting" initial="TOUCH_HVOLT_ATTEN_1V" desc="The attenuation setting to use for the touch pad" type="choice">
+            <Choices>
+                <Choice>TOUCH_HVOLT_ATTEN_KEEP</Choice>
+                <Choice>TOUCH_HVOLT_ATTEN_1V5</Choice>
+                <Choice>TOUCH_HVOLT_ATTEN_1V</Choice>
+                <Choice>TOUCH_HVOLT_ATTEN_0V5</Choice>
+                <Choice>TOUCH_HVOLT_ATTEN_0V</Choice>
+                <Choice>TOUCH_HVOLT_ATTEN_MAX</Choice>
+            </Choices>
+        </Property>
+        <Property id="UP_SENSOR" name="Up Sensor Pin" initial="3" desc="The touch sensor for UP" type="pin"/>
+        <Property id="DOWN_SENSOR" name="Down Sensor Pin" initial="3" desc="The touch sensor for DOWN" type="pin"/>
+        <Property id="SELECT_SENSOR" name="Select Sensor Pin" initial="3" desc="The sensor for select" type="pin"/>
+    </Properties>
+
+    <ApplicabilityDefs/>
+
+    <SourceFiles>
+        <SourceFile name="esp32Touch/ESP32TouchKeysAbstraction.h"/>
+        <SourceFile name="esp32Touch/ESP32TouchKeysAbstraction.cpp"/>
+    </SourceFiles>
+
+    <IncludeFiles>
+        <Header name="ESP32TouchKeysAbstraction.h" inSource="true"/>
+    </IncludeFiles>
+
+    <GlobalVariables>
+        <Variable name="esp32Touch" type="ESP32TouchKeysAbstraction" export="true">
+            <Param value="${SWITCH_THRESHOLD}"/>
+            <Param value="${TP_HIGH_VOLTAGE}"/>
+            <Param value="${TP_LOW_VOLTAGE}"/>
+            <Param value="${TP_ATTENUATION}"/>
+        </Variable>
+    </GlobalVariables>
+
+    <SetupFunctions>
+        <Function name="initialise" object="switches" whenProperty="INTERRUPT_SWITCHES" isValue="false">
+            <Param ref="esp32Touch"/>
+            <Param value="false"/>
+        </Function>
+
+        <Function name="initForUpDownOk" object="menuMgr">
+            <Param ref="renderer"/>
+            <Param ref="${ROOT}"/>
+            <Param value="${DOWN_SENSOR}"/>
+            <Param value="${UP_SENSOR}"/>
+            <Param value="${SELECT_SENSOR}"/>
+        </Function>
+    </SetupFunctions>
+</TcMenuPlugin>

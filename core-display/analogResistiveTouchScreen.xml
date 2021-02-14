@@ -17,8 +17,8 @@
     <Properties>
         <Property id="XPLUS_PIN" name="X+ pin" initial="21" desc="Set to X+ pin" type="pin"/>
         <Property id="XMINUS_PIN" name="X- pin" initial="A0" desc="Set to X- pin, must be an ADC pin" type="pin"/>
-        <Property id="YPLUS_PIN" name="Y+ pin" initial="22" desc="Set to Y+ pin" type="pin"/>
-        <Property id="YMINUS_PIN" name="Y- pin" initial="A1" desc="Set to Y- pin, must be an ADC pin" type="pin"/>
+        <Property id="YPLUS_PIN" name="Y+ pin" initial="22" desc="Set to Y+ pin, must be an ADC pin" type="pin"/>
+        <Property id="YMINUS_PIN" name="Y- pin" initial="A1" desc="Set to Y- pin" type="pin"/>
         <Property id="TOUCH_ROTATION" name="Rotation" initial="PORTRAIT" desc="Sets the orientation of the touch screen" type="choice">
             <Choices>
                 <Choice>PORTRAIT</Choice>
