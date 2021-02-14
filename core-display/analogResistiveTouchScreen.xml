@@ -10,7 +10,7 @@
        <Platform>MBED_RTOS</Platform>
     </SupportedPlatforms>
     <Description>Resistive touch screen panel that is attached to the display, this driver handles direct connection to analog pins on the device, must be used with a graphical renderer.</Description>
-    <Documentation link=""/>
+    <Documentation link="https://www.thecoderscorner.com/products/arduino-libraries/tc-menu/tcmenu-plugins/resistive-touch-screen-plugin/"/>
     <RequiredLibraries/>
     <ImageFile>resistive-touch.jpg</ImageFile>
 

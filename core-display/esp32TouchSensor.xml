@@ -5,9 +5,9 @@
            <Platform>ARDUINO_ESP32</Platform>
     </SupportedPlatforms>
     <Description>Interfaces with the ESP32 touch pad sensors to use them as buttons with switches, either interrupt based or polled mode is supported.</Description>
-    <Documentation link=""/>
+    <Documentation link="https://www.thecoderscorner.com/products/arduino-libraries/tc-menu/tcmenu-plugins/touch-pad-sensor-plugin/"/>
     <RequiredLibraries/>
-    <ImageFile>touchpad.jpg</ImageFile>
+    <ImageFile>touch-pad-sensor.jpg</ImageFile>
 
     <Properties>
         <Property id="SWITCH_THRESHOLD" name="Switch activation threshold" initial="800" desc="Point below which the switch is considered pressed" type="int" min="0" max="32768"/>
