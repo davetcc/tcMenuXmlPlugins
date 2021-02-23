@@ -42,8 +42,8 @@
 
     <IncludeFiles>
         <Header name="tcMenuAdaFruitGfx.h" inSource="true"/>
-        <Header name="Fonts/${DISPLAY_TITLE_FONT}.h" inSource="false" whenProperty="DISPLAY_TITLE_FONT" isNotValue="NULL"/>
-        <Header name="Fonts/${DISPLAY_ITEM_FONT}.h" inSource="false" whenProperty="DISPLAY_ITEM_FONT" isNotValue="NULL"/>
+        <Header name="Fonts/${DISPLAY_TITLE_FONT}.h" inSource="cpp" whenProperty="DISPLAY_TITLE_FONT" isNotValue="NULL"/>
+        <Header name="Fonts/${DISPLAY_ITEM_FONT}.h" inSource="cpp" whenProperty="DISPLAY_ITEM_FONT" isNotValue="NULL"/>
     </IncludeFiles>
 
     <GlobalVariables>
@@ -59,6 +59,9 @@
             <Param value="applicationInfo.name"/>
             <Param ref="${DISPLAY_VARIABLE}Drawable"/>
         </Variable>
+
+        <Variable name="${DISPLAY_TITLE_FONT}" type="const GFXfont" export="only" whenProperty="${DISPLAY_TITLE_FONT}" isNotValue="NULL"/>
+        <Variable name="${DISPLAY_ITEM_FONT}" type="const GFXfont" export="only" whenProperty="${DISPLAY_ITEM_FONT}" isNotValue="NULL"/>
     </GlobalVariables>
 
     <SetupFunctions>
