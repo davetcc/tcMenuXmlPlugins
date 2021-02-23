@@ -11,14 +11,20 @@
     <ImageFile>DfRobotShield.jpg</ImageFile>
 
     <Properties>
+        <Property id="UNO_OR_FULL" name="Uno (less functional) or Full (8K bigger)" initial="unoLcd" desc="Uno (less functional/smaller) of Full functionality plugin ~8K difference" type="choice">
+            <Choices>
+                <Choice>unoLcd</Choice>
+                <Choice>fullLcd</Choice>
+            </Choices>
+        </Property>
         <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="2" desc="Number of screen updates per second, ensure it divides by 1000" type="int" min="1" max="10"/>
     </Properties>
 
     <ApplicabilityDefs/>
 
     <SourceFiles>
-        <SourceFile name="lcdSrc/tcMenuLiquidCrystal.cpp" />
-        <SourceFile name="lcdSrc/tcMenuLiquidCrystal.h" />
+        <SourceFile name="${UNO_OR_FULL}/tcMenuLiquidCrystal.cpp" />
+        <SourceFile name="${UNO_OR_FULL}/tcMenuLiquidCrystal.h" />
     </SourceFiles>
 
     <IncludeFiles>

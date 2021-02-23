@@ -26,14 +26,20 @@
         <Property id="LCD_BACKLIGHT" name="Backlight Pin" initial="-1" desc="Optional backlight pin, -1 for none" type="pin"/>
         <Property id="LCD_PWM_PIN" name="PWM Contrast Pin" initial="-1" desc="Optional PWM contrast pin, -1 for none" type="pin"/>
         <Property id="LCD_IO_DEVICE" name="LCD IO Device (default blank)" initial="" desc="This allows you to provide an IoAbstractionRef if your display is on a non-standard IO expander" type="variable"/>
+        <Property id="UNO_OR_FULL" name="Uno (less functional) or Full (8K bigger)" initial="fullLcd" desc="Uno (less functional/smaller) of Full functionality plugin ~8K difference" type="choice">
+            <Choices>
+                <Choice>unoLcd</Choice>
+                <Choice>fullLcd</Choice>
+            </Choices>
+        </Property>
         <Property id="UPDATES_PER_SEC" name="Screen updates per second" initial="2" desc="Number of screen updates per second, ensure it divides by 1000" type="int" min="1" max="10"/>
     </Properties>
 
     <ApplicabilityDefs/>
 
     <SourceFiles>
-        <SourceFile name="lcdSrc/tcMenuLiquidCrystal.cpp" />
-        <SourceFile name="lcdSrc/tcMenuLiquidCrystal.h" />
+        <SourceFile name="${UNO_OR_FULL}/tcMenuLiquidCrystal.cpp" />
+        <SourceFile name="${UNO_OR_FULL}/tcMenuLiquidCrystal.h" />
     </SourceFiles>
 
     <IncludeFiles>
