@@ -16,7 +16,7 @@
     <ImageFile>mbed-ethernet.jpg</ImageFile>
 
     <Properties>
-        <Property id="LISTEN_PORT" name="Port on which to listen" initial="3333" desc="The port on which to listen" type="int" min="0" max="65355"/>
+        <Property id="LISTEN_PORT" name="Port on which to listen" initial="3333" desc="The port on which to listen" type="int" min="0" max="65535"/>
     </Properties>
 
     <ApplicabilityDefs/>

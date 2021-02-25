@@ -71,6 +71,11 @@
   </xs:complexType>
   <xs:complexType name="SourceFileType" mixed="true">
     <xs:attribute type="xs:string" name="name" use="required"/>
+    <xs:attribute type="xs:string" name="matches" use="optional"/>
+    <xs:attribute type="xs:string" name="whenProperty" use="optional"/>
+    <xs:attribute type="xs:string" name="isValue" use="optional"/>
+    <xs:attribute type="xs:string" name="isNotValue" use="optional"/>
+    <xs:attribute type="xs:string" name="applicabilityRef" use="optional"/>
   </xs:complexType>
   <xs:complexType name="SourceFilesType">
     <xs:sequence>

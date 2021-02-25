@@ -47,7 +47,7 @@
         <Replacement find="someKey" replace="${INT_PROP}"/>
         <Replacement find="otherKey" replace="abc"/>
         <SourceFile name="src/source.h" />
-        <SourceFile name="src/source.cpp"/>
+        <SourceFile name="src/source.cpp" whenProperty="${INT_PROP}" isValue="5"/>
     </SourceFiles>
 
     <IncludeFiles>
