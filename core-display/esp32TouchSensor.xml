@@ -1,4 +1,6 @@
-<TcMenuPlugin name="Use ESP32 touch pad sensors for input" id="cc0f9246-03be-4adf-b1f5-dd501085122a" subsystem="INPUT"
+<TcMenuPlugin name="Use ESP32 touch pad sensors for input"
+              id="cc0f9246-03be-4adf-b1f5-dd501085122a" subsystem="INPUT"
+              requiresDesigner="2.0"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
     <SupportedPlatforms>
@@ -42,9 +44,11 @@
                 <Choice>TOUCH_HVOLT_ATTEN_MAX</Choice>
             </Choices>
         </Property>
-        <Property id="UP_SENSOR" name="Up Sensor Pin" initial="3" desc="The touch sensor for UP" type="pin"/>
-        <Property id="DOWN_SENSOR" name="Down Sensor Pin" initial="3" desc="The touch sensor for DOWN" type="pin"/>
-        <Property id="SELECT_SENSOR" name="Select Sensor Pin" initial="3" desc="The sensor for select" type="pin"/>
+        <Property id="UP_SENSOR" name="Up Sensor Num" initial="3" desc="The touch sensor for UP" type="pin"/>
+        <Property id="DOWN_SENSOR" name="Down Sensor Num" initial="3" desc="The touch sensor for DOWN" type="pin"/>
+        <Property id="BACK_SENSOR" name="Left / Back Sensor Num (-1 off)" initial="-1" desc="Left or back touch sensor connection, or -1 for none" type="pin"/>
+        <Property id="NEXT_SENSOR" name="Right / Next Sensor Num (-1 off)" initial="-1" desc="Right or Next touch sensor connection, or -1 for none" type="pin"/>
+        <Property id="SELECT_SENSOR" name="Select Sensor Num" initial="3" desc="The sensor for select" type="pin"/>
     </Properties>
 
     <ApplicabilityDefs/>
@@ -84,6 +88,14 @@
             <Param value="${DOWN_SENSOR}"/>
             <Param value="${UP_SENSOR}"/>
             <Param value="${SELECT_SENSOR}"/>
+        </Function>
+
+        <Function name="setBackButton" object="menuMgr" whenProperty="BACK_SENSOR" isNotValue="-1">
+            <Param value="${BACK_SENSOR}"/>
+        </Function>
+
+        <Function name="setNextButton" object="menuMgr" whenProperty="NEXT_SENSOR" isNotValue="-1">
+            <Param value="${NEXT_SENSOR}"/>
         </Function>
 
         <Function name="ensureInterruptRegistered" object="esp32Touch"/>

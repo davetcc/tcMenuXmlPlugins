@@ -1,5 +1,7 @@
-<TcMenuPlugin name="DfRobot LCD shield renderer" id="bcd5fe34-9e9f-4fcb-9edf-f4e3caca0674" subsystem="DISPLAY"
-    xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<TcMenuPlugin name="DfRobot LCD shield renderer"
+              id="bcd5fe34-9e9f-4fcb-9edf-f4e3caca0674" subsystem="DISPLAY"
+              requiresDesigner="2.0"
+              xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
     <SupportedPlatforms>
        <Platform>ARDUINO_UNO</Platform>

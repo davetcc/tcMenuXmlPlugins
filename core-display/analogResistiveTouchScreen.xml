@@ -1,4 +1,6 @@
-<TcMenuPlugin name="Resistive touch screen on analog inputs" id="183448ac-a717-4b2b-823d-ffc7c8140ab9" subsystem="INPUT"
+<TcMenuPlugin name="Resistive touch screen on analog inputs"
+              id="183448ac-a717-4b2b-823d-ffc7c8140ab9" subsystem="INPUT"
+              requiresDesigner="2.0"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
     <SupportedPlatforms>

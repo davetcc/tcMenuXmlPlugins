@@ -1,7 +1,7 @@
 <TcMenuPlugin name="U8G2 display quick start, covers common options"
               id="fd998437-c4b2-4386-ba88-d0ae7c20620b"
               subsystem="DISPLAY"
-              requiresDesigner="1.6"
+              requiresDesigner="2.0"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">

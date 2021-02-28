@@ -1,4 +1,5 @@
-<TcMenuPlugin name="Custom rendering to the display" id="8f4821df-c98e-4761-b824-898482df33a5" subsystem="DISPLAY"
+<TcMenuPlugin name="Custom rendering to the display"
+              id="8f4821df-c98e-4761-b824-898482df33a5" subsystem="DISPLAY"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
     <SupportedPlatforms>

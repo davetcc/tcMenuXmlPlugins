@@ -38,5 +38,13 @@
             <Param value="DF_KEY_UP"/>
             <Param value="DF_KEY_SELECT"/>
         </Function>
+
+        <Function name="setBackButton" object="menuMgr">
+            <Param value="DF_KEY_LEFT"/>
+        </Function>
+
+        <Function name="setNextButton" object="menuMgr">
+            <Param value="DF_KEY_RIGHT"/>
+        </Function>
     </SetupFunctions>
 </TcMenuPlugin>

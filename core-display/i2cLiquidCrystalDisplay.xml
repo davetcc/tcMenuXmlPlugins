@@ -1,4 +1,6 @@
-<TcMenuPlugin name="LCD shield renderer for common I2C devices" id="d4c84106-fa87-4024-b91e-053e17a52b8f" subsystem="DISPLAY"
+<TcMenuPlugin name="LCD shield renderer for common I2C devices"
+              id="d4c84106-fa87-4024-b91e-053e17a52b8f" subsystem="DISPLAY"
+              requiresDesigner="2.0"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
     <SupportedPlatforms>

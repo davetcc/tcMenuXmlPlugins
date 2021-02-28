@@ -1,6 +1,7 @@
 <TcMenuPlugin name="Custom U8G2 - manually declared and configured"
               id="8646497b-1427-415f-8020-1260a1fef57d"
               subsystem="DISPLAY"
+              requiresDesigner="2.0"
               xmlns="https://www.thecoderscorner.com/libraries/tcmenuPluginItem"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
               xsi:schemaLocation="https://www.thecoderscorner.com/libraries/tcmenuPluginItem https://www.thecoderscorner.com/libraries/tcmenu-plugin-item.xsd">
