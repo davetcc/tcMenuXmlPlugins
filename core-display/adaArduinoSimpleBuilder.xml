@@ -27,7 +27,7 @@
             </Choices>
         </Property>
         <Property id="DISPLAY_WIDTH" name="Display width" initial="320" desc="Pixel width in hardware" type="int" min="16" max="5000"/>
-        <Property id="DISPLAY_HEIGHT" name="Display width" initial="240" desc="Pixel width in hardware" type="int" min="16" max="5000"/>
+        <Property id="DISPLAY_HEIGHT" name="Display height" initial="240" desc="Pixel height in hardware" type="int" min="16" max="5000"/>
         <Property id="DISPLAY_RESET_PIN" name="Optional Reset Pin" initial="-1" desc="Option the pin on which Reset is connected" type="pin" />
         <Property id="DISPLAY_CS_PIN" name="CS Pin (SPI only)" initial="-1" desc="Option the pin on which CS is connected" type="pin" />
         <Property id="DISPLAY_RS_PIN" name="RS Pin (SPI only)" initial="-1" desc="Option the pin on which RS is connected" type="pin" />
