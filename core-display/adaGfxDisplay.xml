@@ -63,8 +63,8 @@
             <Param ref="${DISPLAY_VARIABLE}Drawable"/>
         </Variable>
 
-        <Variable name="${DISPLAY_TITLE_FONT}" type="const GFXfont" export="only" whenProperty="${DISPLAY_TITLE_FONT}" isNotValue="NULL"/>
-        <Variable name="${DISPLAY_ITEM_FONT}" type="const GFXfont" export="only" whenProperty="${DISPLAY_ITEM_FONT}" isNotValue="NULL"/>
+        <Variable name="${DISPLAY_TITLE_FONT}" type="const GFXfont" export="only" whenProperty="DISPLAY_TITLE_FONT" isNotValue="NULL"/>
+        <Variable name="${DISPLAY_ITEM_FONT}" type="const GFXfont" export="only" whenProperty="DISPLAY_ITEM_FONT" isNotValue="NULL"/>
     </GlobalVariables>
 
     <SetupFunctions>
