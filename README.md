@@ -1,5 +1,7 @@
 ## Core plugins for tcMenu designer.
 
+Note that this is the old location for 1.7 plugins, all the 2.0 plugins are hosted directly in the tcMenu repo.
+
 These are the core plugins available in the free version of tcMenu Designer. Each plugin library contains a definition file that references each of the plugins to load, along with details about the library. Each plugin is an xml file that's loaded at start up by the designer. They contain the definitions of global variables, function calls to make during startup and other definitions and include files needed for the driver to work. 
 
 Full guide: https://www.thecoderscorner.com/products/arduino-libraries/tc-menu/tcmenu-plugins/building-plugins-for-use-in-menu-designer/
